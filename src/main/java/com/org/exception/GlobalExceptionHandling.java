@@ -1,5 +1,7 @@
 package com.org.exception;
 
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,12 +12,15 @@ public class GlobalExceptionHandling {
 
 	@ExceptionHandler(IdNotFoundException.class)
 	public ResponseEntity<?> handleIdNotFoundException(IdNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+		ErrorCode error=new ErrorCode(ex.getMessage(), new Date());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleException(Exception e) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		ErrorCode error=new ErrorCode(e.getMessage(), new Date());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 }
